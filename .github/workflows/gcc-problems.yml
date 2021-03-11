@@ -10,6 +10,9 @@ jobs:
   build_with_problem_matcher:
     runs-on: ubuntu-latest
     steps:
+      - 
+        name: Check Out Repo 
+        uses: actions/checkout@v2
       -
         name: Install GCC
         run : |
@@ -27,5 +30,5 @@ jobs:
       -
         name: build
         run: |
-          gcc -Wall -Wextra main.cc
+          g++ -Wall -Wextra main.cpp
           ./a.out

@@ -1,0 +1,31 @@
+name: "GCC Warnings & Errors"
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+
+jobs:
+  build_with_problem_matcher:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Install GCC
+        run : |
+          sudo apt-get install gcc
+      -
+        # For more complex builds, e.g. monorepos, build warnings may not contain the path from root.
+        # This can interfere with annotation application.
+        #
+        # See the following resources for possible future fixes or alternatives.
+        # - https://github.com/microsoft/vscode-cpptools/issues/2266 for path fixups
+        # - https://github.com/actions/runner/issues/659
+        # - https://github.com/actions/runner/issues/765
+        name: Load gcc-problem-matcher
+        uses: ammaraskar/gcc-problem-matcher@master
+      -
+        name: build
+        run: |
+          gcc -Wall -Wextra main.cc
+          ./a.out

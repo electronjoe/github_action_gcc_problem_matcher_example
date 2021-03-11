@@ -12,24 +12,21 @@ jobs:
     steps:
       - 
         name: Check Out Repo 
-        uses: actions/checkout@v
-      -
-        name: Install GCC
-        run : |
-          sudo apt-get install gcc
+        uses: actions/checkout@v2
       -
         # For more complex builds, e.g. monorepos, build warnings may not contain the path from root.
         # This can interfere with annotation application.
         #
         # See the following resources for possible future fixes or alternatives.
-        # - https://github.com/microsoft/vscode-cpptools/issues/2266 for path fixups
+        # - https://github.com/actions/toolkit/issues/480 <- excellent post by xt0rted
+        # - https://github.com/microsoft/vscode-cpptools/issues/2266
+        # - https://github.com/actions/toolkit/issues/480
         # - https://github.com/actions/runner/issues/659
         # - https://github.com/actions/runner/issues/765
         name: Load gcc-problem-matcher
-        uses: ammaraskar/gcc-problem-matcher@master
+        uses: electronjoe/gcc-problem-matcher@v1
       -
         name: build
         run: |
-          cd src
-          g++ -Wall -Wextra main.cpp
+          g++ -Wall -Wextra src/main.cpp
           ./a.out
